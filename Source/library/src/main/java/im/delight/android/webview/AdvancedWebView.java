@@ -109,6 +109,14 @@ public class AdvancedWebView extends WebView {
 		init(context);
 	}
 
+	@Override
+	// Keep playing the video when app loses focus.
+	protected void onWindowVisibilityChanged(int visibility) {
+		if (visibility != View.GONE && visibility != View.INVISIBLE) {
+			super.onWindowVisibilityChanged(visibility);
+		}
+	}
+
 	public void setListener(final Activity activity, final Listener listener) {
 		setListener(activity, listener, REQUEST_CODE_FILE_PICKER);
 	}
