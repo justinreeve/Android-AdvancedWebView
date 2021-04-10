@@ -58,10 +58,9 @@ public class MainActivity extends Activity implements AdvancedWebView.Listener {
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-			super.onPageFinished(view, url);
-			emulateClick(view);
+				super.onPageFinished(view, url);
+				emulateClick(view);
 			}
-
 		});
 		mWebView.addHttpHeader("X-Requested-With", "Android");
 		mWebView.loadUrl(getResources().getString(R.string.app_url));
@@ -71,14 +70,14 @@ public class MainActivity extends Activity implements AdvancedWebView.Listener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mWebView.onResume();
+		// mWebView.onResume();
 		// ...
 	}
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onPause() {
-		mWebView.onPause();
+		// mWebView.onPause();
 		// ...
 		super.onPause();
 	}
@@ -135,5 +134,4 @@ public class MainActivity extends Activity implements AdvancedWebView.Listener {
 	public void onExternalPageRequest(String url) {
 		Toast.makeText(MainActivity.this, "onExternalPageRequest(url = "+url+")", Toast.LENGTH_SHORT).show();
 	}
-
 }
