@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">Metal Radio</string>
-	<string name="app_url">https://dev.metalradio.xyz/listen</string>
+    <string name="app_name">Piano Radio</string>
+	<string name="app_url">https://dev.pianoradio.org/listen</string>
 	<string name="app_icon"></string>
 
 </resources>
