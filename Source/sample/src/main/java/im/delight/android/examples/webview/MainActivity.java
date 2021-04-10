@@ -17,7 +17,6 @@ import android.app.Activity;
 
 public class MainActivity extends Activity implements AdvancedWebView.Listener {
 
-	private static final String TEST_PAGE_URL = "https://dev.pianoradio.org/listen";
 	private AdvancedWebView mWebView;
 
 	private void emulateClick(final WebView webview) {
@@ -33,10 +32,10 @@ public class MainActivity extends Activity implements AdvancedWebView.Listener {
 		webview.post(new Runnable() {
 			@Override
 			public void run() {
-				if (webview != null) {
-					webview.dispatchTouchEvent(downEvent);
-					webview.dispatchTouchEvent(upEvent);
-				}
+			if (webview != null) {
+				webview.dispatchTouchEvent(downEvent);
+				webview.dispatchTouchEvent(upEvent);
+			}
 			}
 		});
 	}
@@ -59,13 +58,13 @@ public class MainActivity extends Activity implements AdvancedWebView.Listener {
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				emulateClick(view);
+			super.onPageFinished(view, url);
+			emulateClick(view);
 			}
 
 		});
 		mWebView.addHttpHeader("X-Requested-With", "Android");
-		mWebView.loadUrl(TEST_PAGE_URL);
+		mWebView.loadUrl(getResources().getString(R.string.app_url));
 	}
 
 	@SuppressLint("NewApi")
@@ -124,7 +123,7 @@ public class MainActivity extends Activity implements AdvancedWebView.Listener {
 	public void onDownloadRequested(String url, String suggestedFilename, String mimeType, long contentLength, String contentDisposition, String userAgent) {
 		Toast.makeText(MainActivity.this, "onDownloadRequested(url = "+url+",  suggestedFilename = "+suggestedFilename+",  mimeType = "+mimeType+",  contentLength = "+contentLength+",  contentDisposition = "+contentDisposition+",  userAgent = "+userAgent+")", Toast.LENGTH_LONG).show();
 
-		/*if (AdvancedWebView.handleDownload(this, url, suggestedFilename)) {
+		/*if (AdvancedWebView.handleDownload(this, url, suggestedFxilename)) {
 			// download successfully handled
 		}
 		else {
