@@ -1,6 +1,9 @@
 package im.delight.android.examples.webview;
 
 import im.delight.android.webview.AdvancedWebView;
+
+import android.os.SystemClock;
+import android.view.MotionEvent;
 import android.webkit.WebChromeClient;
 import android.widget.Toast;
 import android.webkit.WebView;
@@ -14,8 +17,29 @@ import android.app.Activity;
 
 public class MainActivity extends Activity implements AdvancedWebView.Listener {
 
-	private static final String TEST_PAGE_URL = "https://www.example.org/";
+	private static final String TEST_PAGE_URL = "https://dev.pianoradio.org/listen";
 	private AdvancedWebView mWebView;
+
+	private void emulateClick(final WebView webview) {
+		long delta = 100;
+		long downTime = SystemClock.uptimeMillis();
+		float x = webview.getLeft() + webview.getWidth()/2; //in the middle of the webview
+		float y = webview.getTop() + webview.getHeight()/2;
+
+		final MotionEvent downEvent = MotionEvent.obtain( downTime, downTime + delta, MotionEvent.ACTION_DOWN, x, y, 0 );
+		// change the position of touch event, otherwise, it'll show the menu.
+		final MotionEvent upEvent = MotionEvent.obtain( downTime, downTime+ delta, MotionEvent.ACTION_UP, x+10, y+10, 0 );
+
+		webview.post(new Runnable() {
+			@Override
+			public void run() {
+				if (webview != null) {
+					webview.dispatchTouchEvent(downEvent);
+					webview.dispatchTouchEvent(upEvent);
+				}
+			}
+		});
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +52,19 @@ public class MainActivity extends Activity implements AdvancedWebView.Listener {
 		mWebView.setMixedContentAllowed(false);
 		mWebView.setCookiesEnabled(true);
 		mWebView.setThirdPartyCookiesEnabled(true);
+		mWebView.getSettings().setJavaScriptEnabled(true);
+		mWebView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+		mWebView.setWebChromeClient(new WebChromeClient());
 		mWebView.setWebViewClient(new WebViewClient() {
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
-				Toast.makeText(MainActivity.this, "Finished loading", Toast.LENGTH_SHORT).show();
+				super.onPageFinished(view, url);
+				emulateClick(view);
 			}
 
 		});
-		mWebView.setWebChromeClient(new WebChromeClient() {
-
-			@Override
-			public void onReceivedTitle(WebView view, String title) {
-				super.onReceivedTitle(view, title);
-				Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
-			}
-
-		});
-		mWebView.addHttpHeader("X-Requested-With", "");
+		mWebView.addHttpHeader("X-Requested-With", "Android");
 		mWebView.loadUrl(TEST_PAGE_URL);
 	}
 
