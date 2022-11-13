@@ -1,7 +1,7 @@
 <resources>
 
-    <string name="app_name">Piano Radio</string>
-	<string name="app_url">https://dev.pianoradio.org/listen</string>
+    <string name="app_name">Epic Music Radio</string>
+	<string name="app_url">https://dev.epicmusic.stream/listen</string>
 	<string name="app_icon"></string>
 
 </resources>
